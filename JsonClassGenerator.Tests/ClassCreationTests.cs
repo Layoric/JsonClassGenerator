@@ -10,12 +10,12 @@ namespace JsonClassGenerator.Tests
         public void CreateSimpleClass()
         {
             var simpleObj = "{ \"hello\": \"world\" }";
-            string cSharpString = JsonCSharpGenerator.FromJsonObject(simpleObj);
+            string cSharpString = JsonCSharpGenerator.FromJsonObject(simpleObj).Replace("\r\n", "\n");
             string expected =
                 @"public class RootObject
 {
     public string Hello { get;set; }
-}";
+}".Replace("\r\n","\n");
             Assert.That(cSharpString, Is.Not.Null);
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
@@ -35,7 +35,7 @@ namespace JsonClassGenerator.Tests
         public void CreateSimpleClass2()
         {
             var simpleObj = new RootObject() { Hello = new Hello { Name = "World" } }.ToJson();
-            string cSharpString = JsonCSharpGenerator.FromJsonObject(simpleObj);
+            string cSharpString = JsonCSharpGenerator.FromJsonObject(simpleObj).Replace("\r\n", "\n");
             string expected =
                 @"public class Hello
 {
@@ -45,8 +45,7 @@ namespace JsonClassGenerator.Tests
 public class RootObject
 {
     public Hello Hello { get;set; }
-}
-";
+}".Replace("\r\n", "\n");
             Assert.That(cSharpString, Is.Not.Null);
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
@@ -57,14 +56,14 @@ public class RootObject
         {
             string input =
                 "{\r\n  \"state\": \"success\",\r\n  \"target_url\": \"https://example.com/build/status\",\r\n  \"description\": \"The build succeeded!\",\r\n  \"context\": \"continuous-integration/jenkins\"\r\n}";
-            string cSharpString = JsonCSharpGenerator.FromJsonObject(input);
+            string cSharpString = JsonCSharpGenerator.FromJsonObject(input).Replace("\r\n", "\n");
             string expected = @"public class RootObject
 {
     public string State { get;set; }
     public string TargetUrl { get;set; }
     public string Description { get;set; }
     public string Context { get;set; }
-}";
+}".Replace("\r\n", "\n");
             Assert.That(cSharpString, Is.Not.Null);
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
@@ -132,7 +131,7 @@ public class RootObject
   ""commit_url"": ""https://api.github.com/repos/octocat/Hello-World/6dcb09b5b57875f334f61aebed695e2e4193db5e"",
   ""url"": ""https://api.github.com/repos/octocat/Hello-World/6dcb09b5b57875f334f61aebed695e2e4193db5e/status""
 }";
-            string cSharpString = JsonCSharpGenerator.FromJsonObject(input);
+            string cSharpString = JsonCSharpGenerator.FromJsonObject(input).Replace("\r\n", "\n");
             string expected = @"public class Statuses
 {
     public DateTime CreatedAt { get;set; }
@@ -189,7 +188,7 @@ public class RootObject
     public Repository Repository { get;set; }
     public string CommitUrl { get;set; }
     public string Url { get;set; }
-}";
+}".Replace("\r\n", "\n");
             Assert.That(cSharpString, Is.Not.Null);
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
@@ -270,7 +269,7 @@ public class RootObject
     ]
   }
 ]";
-            string cSharpString = JsonCSharpGenerator.FromJsonArray(input);
+            string cSharpString = JsonCSharpGenerator.FromJsonArray(input).Replace("\r\n", "\n");
             string expected = @"public class Author
 {
     public string Login { get;set; }
@@ -348,7 +347,7 @@ public class RootObject
     public DateTime PublishedAt { get;set; }
     public Author Author { get;set; }
     public List<Assets> Assets { get;set; }
-}";
+}".Replace("\r\n", "\n");
             Assert.That(cSharpString, Is.Not.Null);
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
