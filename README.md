@@ -1,2 +1,2 @@
-# JsonClassGenerator
+# JsonClassGenerator [![Build status](https://ci.appveyor.com/api/projects/status/3mgqj3kwufodkv8p/branch/master?svg=true)](https://ci.appveyor.com/project/Layoric/jsonclassgenerator/branch/master)[![Coverage Status](https://coveralls.io/repos/github/Layoric/JsonClassGenerator/badge.svg?branch=master)](https://coveralls.io/github/Layoric/JsonClassGenerator?branch=master)
 Generates clean simple C# POCOs from JSON
