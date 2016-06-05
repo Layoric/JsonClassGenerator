@@ -46,6 +46,16 @@ namespace JsonClassGenerator
             };
             jsonObject.ForEach((key, val) =>
             {
+                if (val == null)
+                {
+                    JsonField tempFieldNull = new JsonField();
+                    tempFieldNull.IsObject = true;
+                    tempFieldNull.TypeName = "object";
+                    tempFieldNull.Name = key;
+                    result.Children.Add(key, tempFieldNull);
+                    result.Childs.Add(tempFieldNull);
+                    return;
+                }
                 if (val.StartsWith("{") && val.EndsWith("}"))
                 {
                     var obj = JsonObject.Parse(val);
@@ -60,73 +70,70 @@ namespace JsonClassGenerator
                 }
                 if (val.StartsWith("[") && val.EndsWith("]"))
                 {
-                    var obj = JsonArrayObjects.Parse(val);
-                    var childTmp = obj.FromJsonArray(key);
-                    childTmp.Name = key.ToPascalCase();
-                    childTmp.TypeName = key.ToPascalCase();
-                    childTmp.IsArray = true;
-                    childTmp.IsObject = true;
+                    string minJson = val.Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                    if (minJson.StartsWith("[{"))
+                    {
+                        var obj = JsonArrayObjects.Parse(val);
+                        var childTmp = obj.FromJsonArray(key);
+                        childTmp.Name = key.ToPascalCase();
+                        childTmp.TypeName = key.ToPascalCase();
+                        childTmp.IsArray = true;
+                        childTmp.IsObject = true;
 
-                    result.Children.Add(childTmp.TypeName, childTmp);
-                    result.Childs.Add(childTmp);
+                        result.Children.Add(childTmp.TypeName, childTmp);
+                        result.Childs.Add(childTmp);
+                    }
+                    else
+                    {
+                        var field = JsonSerializer.DeserializeFromString<List<object>>(minJson);
+                        var arraVal = field.First() as string;
+                        JsonField arrayFieldTemp = GenerateJsonField(key, arraVal);
+                        arrayFieldTemp.IsArray = true;
+                        arrayFieldTemp.IsObject = false;
+                        
+                        result.Children.Add(key, arrayFieldTemp);
+                        result.Childs.Add(arrayFieldTemp);
+                    }
+                    
                     return;
                 }
-                JsonField childFieldTmp = new JsonField();
+                JsonField childFieldTmp = GenerateJsonField(key, val);
+                result.Children.Add(key, childFieldTmp);
+                result.Childs.Add(childFieldTmp);
 
-                if (val.IsType<int>())
-                {
-                    childFieldTmp.IsPrimitive = true;
-                    childFieldTmp.TypeName = "int";
-                    childFieldTmp.Name = key;
-
-                    result.Children.Add(key, childFieldTmp);
-                    result.Childs.Add(childFieldTmp);
-                    return;
-                }
-
-                if (val.IsType<float>())
-                {
-                    childFieldTmp.IsPrimitive = true;
-                    childFieldTmp.TypeName = "float";
-                    childFieldTmp.Name = key;
-
-                    result.Children.Add(key, childFieldTmp);
-                    result.Childs.Add(childFieldTmp);
-                    return;
-                }
-
-                if (val.IsType<bool>())
-                {
-                    childFieldTmp.IsPrimitive = true;
-                    childFieldTmp.TypeName = "bool";
-                    childFieldTmp.Name = key;
-
-                    result.Children.Add(key, childFieldTmp);
-                    result.Childs.Add(childFieldTmp);
-                    return;
-                }
-
-                if (val.IsType<DateTime>())
-                {
-                    childFieldTmp.IsPrimitive = true;
-                    childFieldTmp.TypeName = "DateTime";
-                    childFieldTmp.Name = key;
-
-                    result.Children.Add(key, childFieldTmp);
-                    result.Childs.Add(childFieldTmp);
-                    return;
-                }
-
-                if (val.IsType<string>())
-                {
-                    childFieldTmp.IsPrimitive = true;
-                    childFieldTmp.TypeName = "string";
-                    childFieldTmp.Name = key;
-
-                    result.Children.Add(key, childFieldTmp);
-                    result.Childs.Add(childFieldTmp);
-                }
             });
+            return result;
+        }
+
+        private static JsonField GenerateJsonField(string key, string val)
+        {
+            JsonField result = new JsonField();
+            result.IsPrimitive = true;
+            result.Name = key;
+            if (val.IsType<int>())
+            {
+                result.TypeName = "int";
+                return result;
+            }
+            if (val.IsType<float>())
+            {
+                result.TypeName = "float";
+                return result;
+            }
+            if (val.IsType<bool>())
+            {
+                result.TypeName = "bool";
+                return result;
+            }
+            if (val.IsType<DateTime>())
+            {
+                result.TypeName = "DateTime";
+                return result;
+            }
+            if (val.IsType<string>())
+            {
+                result.TypeName = "string";
+            }
             return result;
         }
 
