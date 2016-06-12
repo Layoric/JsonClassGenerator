@@ -362,7 +362,7 @@ public class RootObject
             string expected = @"public class RootObject
 {
     public string Hello { get;set; }
-}";
+}".Replace("\r\n", "\n");
 
             Assert.AreEqual(expected,result.Trim());
         }
