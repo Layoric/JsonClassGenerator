@@ -71,7 +71,7 @@ namespace JsonClassGenerator
                 if (val.StartsWith("[") && val.EndsWith("]"))
                 {
                     string minJson = val.Replace("\r", "").Replace("\n", "").Replace("\t", "");
-                    if (minJson.StartsWith("[{"))
+                    if (minJson.Replace(" ","").StartsWith("[{"))
                     {
                         var obj = JsonArrayObjects.Parse(val);
                         var childTmp = obj.FromJsonArray(key);
