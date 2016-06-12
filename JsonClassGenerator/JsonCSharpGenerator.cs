@@ -110,6 +110,11 @@ namespace JsonClassGenerator
             JsonField result = new JsonField();
             result.IsPrimitive = true;
             result.Name = key;
+            if (val.Trim().Equals("true") || val.Trim().Equals("false"))
+            {
+                result.TypeName = "bool";
+                return result;
+            }
             if (val.IsType<int>())
             {
                 result.TypeName = "int";
@@ -120,11 +125,7 @@ namespace JsonClassGenerator
                 result.TypeName = "float";
                 return result;
             }
-            if (val.IsType<bool>())
-            {
-                result.TypeName = "bool";
-                return result;
-            }
+
             if (val.IsType<DateTime>())
             {
                 result.TypeName = "DateTime";
@@ -133,7 +134,10 @@ namespace JsonClassGenerator
             if (val.IsType<string>())
             {
                 result.TypeName = "string";
+                return result;
             }
+
+
             return result;
         }
 

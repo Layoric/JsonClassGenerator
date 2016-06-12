@@ -352,5 +352,19 @@ public class RootObject
             Assert.That(cSharpString.Length, Is.GreaterThan(0));
             Assert.That(cSharpString.Trim(), Is.EqualTo(expected.Trim()));
         }
+
+        [Test]
+        public void CanGeneratorSingleStringProperty()
+        {
+            string json = "{\r\n   \"hello\": \"zz\"\r\n}";
+
+            var result = JsonCSharpGenerator.FromJsonObject(json);
+            string expected = @"public class RootObject
+{
+    public string Hello { get;set; }
+}";
+
+            Assert.AreEqual(expected,result.Trim());
+        }
     }
 }
