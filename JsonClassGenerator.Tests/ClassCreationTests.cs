@@ -358,7 +358,7 @@ public class RootObject
         {
             string json = "{\r\n   \"hello\": \"zz\"\r\n}";
 
-            var result = JsonCSharpGenerator.FromJsonObject(json);
+            var result = JsonCSharpGenerator.FromJsonObject(json).Replace("\r\n", "\n");
             string expected = @"public class RootObject
 {
     public string Hello { get;set; }
