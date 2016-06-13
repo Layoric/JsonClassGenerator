@@ -3,7 +3,7 @@ image: Visual Studio 2015
 before_build:
 - cmd: nuget restore DtoGen\DtoGen.sln
 - cmd: nuget restore JsonClassGenerator.sln
-- cmd: npm install -g jspm
+- cmd: npm install -g jspm@16.31
 - cmd: npm install -g typings@0.8.1
 - cmd: jspm config registries.github.auth %JSPM_GITHUB_AUTH_TOKEN%
 - cmd: cd DtoGen && cd DtoGen && cd DtoGen && npm install
