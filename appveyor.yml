@@ -1,4 +1,5 @@
 version: 1.0.{build}
+image: Visual Studio 2015
 before_build:
 - cmd: nuget restore DtoGen\DtoGen.sln
 - cmd: nuget restore JsonClassGenerator.sln
@@ -14,8 +15,9 @@ environment:
     secure: 0FpRSIDupGKBPYAu9Kq0yG/fQnpMuyCbgegXLtMi/dADgLx44W01Y7EQtsz7kONh
   JSPM_GITHUB_AUTH_TOKEN:
     secure: Ux66EBxk+OQF6L9XgSKBbbrqd/UEJMK3no3Eu4XFHKcp/LRjda99Y5ttPnfI8vgmGwu4C9Mg8D+slkCTJWDJ2sZ0JzdvecY1dFEwcpbnsAI=
-after_test:
+test_script:
 - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:"/domain:single JsonClassGenerator.Tests\bin\debug\JsonClassGenerator.Tests.dll" -output:coverage.xml
+after_test:
 - cmd: packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
 artifacts:
   - path: 'DtoGen\DtoGen\DtoGen\bin\Debug\*.dll'
