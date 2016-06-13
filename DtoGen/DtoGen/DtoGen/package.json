@@ -2,7 +2,7 @@
   "name": "DtoGen",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "cmd /c wwwroot_build\\build.bat"
+    "postinstall": "jspm install && typings install"
   },
   "jspm": {
     "registry": "npm",
