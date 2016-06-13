@@ -1,12 +1,10 @@
 version: 1.0.{build}
 image: Visual Studio 2015
-on_finish:
-- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 before_build:
 - cmd: nuget restore DtoGen\DtoGen.sln
 - cmd: nuget restore JsonClassGenerator.sln
 - cmd: npm install -g jspm
-- cmd: npm install -g typings
+- cmd: npm install -g typings@0.8.1
 - cmd: jspm config registries.github.auth %JSPM_GITHUB_AUTH_TOKEN%
 - cmd: cd DtoGen && cd DtoGen && cd DtoGen && npm install
 build:
