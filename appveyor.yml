@@ -2,7 +2,7 @@ version: 1.0.{build}
 before_build:
 - cmd: nuget restore DtoGen\DtoGen.sln
 - cmd: nuget restore JsonClassGenerator.sln
-- cmd: cd DtoGen && cd DtoGen && npm install
+- cmd: cd DtoGen && cd DtoGen && cd DtoGen && npm install
 build:
   project: DtoGen\DtoGen.sln
   verbosity: minimal
