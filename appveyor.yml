@@ -1,6 +1,6 @@
 version: 1.0.{build}
 before_build:
-- cmd: nuget restore DtoGen\DtoGen.sln
+- cmd: nuget restore JsonClassGenerator.sln
 build:
   project: DtoGen\DtoGen.sln
   verbosity: minimal
