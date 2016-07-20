@@ -366,5 +366,47 @@ public class RootObject
 
             Assert.AreEqual(expected,result.Trim());
         }
+
+        [Test]
+        public void CanGeneratorSingleCharStringProperty()
+        {
+            string json = "{\r\n   \"hello\": \"_\"\r\n}";
+
+            var result = JsonCSharpGenerator.FromJsonObject(json).Replace("\r\n", "\n");
+            string expected = @"public class RootObject
+{
+    public string Hello { get;set; }
+}".Replace("\r\n", "\n");
+
+            Assert.AreEqual(expected, result.Trim());
+        }
+
+        [Test]
+        public void CanGenerateTitleCasePropertyName()
+        {
+            string json = "{\r\n   \"helloAgain\": \"hello!\"\r\n}";
+
+            var result = JsonCSharpGenerator.FromJsonObject(json).Replace("\r\n", "\n");
+            string expected = @"public class RootObject
+{
+    public string HelloAgain { get;set; }
+}".Replace("\r\n", "\n");
+
+            Assert.AreEqual(expected, result.Trim());
+        }
+
+        [Test]
+        public void CanReplaceUnderscoreWithPascalCase()
+        {
+            string json = "{\r\n   \"hello_again\": \"hello!\"\r\n}";
+
+            var result = JsonCSharpGenerator.FromJsonObject(json).Replace("\r\n", "\n");
+            string expected = @"public class RootObject
+{
+    public string HelloAgain { get;set; }
+}".Replace("\r\n", "\n");
+
+            Assert.AreEqual(expected, result.Trim());
+        }
     }
 }

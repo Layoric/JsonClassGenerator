@@ -1,4 +1,4 @@
-/// <reference path='../typings/browser.d.ts'/>
+/// <reference path='../typings/index.d.ts'/>
 System.register(['aurelia-framework', "aurelia-http-client", 'aurelia-bootstrapper', 'aurelia-templating-binding', 'aurelia-templating-resources', 'aurelia-logging-console', 'aurelia-templating-router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;

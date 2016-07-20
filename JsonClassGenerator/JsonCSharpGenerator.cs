@@ -181,10 +181,10 @@ namespace JsonClassGenerator
                 {
                     if (field.Value.IsArray)
                     {
-                        sb.AppendLine("    public List<{0}> {1} ".Fmt(field.Value.TypeName, field.Value.Name.ToTitleCase()) + "{ get;set; }");
+                        sb.AppendLine("    public List<{0}> {1} ".Fmt(field.Value.TypeName, field.Value.Name.ToPascalCase()) + "{ get;set; }");
                         continue;
                     }
-                    sb.AppendLine("    public {0} {1} ".Fmt(field.Value.TypeName, field.Value.Name.ToTitleCase()) + "{ get;set; }");
+                    sb.AppendLine("    public {0} {1} ".Fmt(field.Value.TypeName, field.Value.Name.ToPascalCase()) + "{ get;set; }");
                 }
                 sb.AppendLine("}");
                 sb.AppendLine();
